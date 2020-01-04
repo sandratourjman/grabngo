@@ -7,18 +7,26 @@
   
       <!-- Navigation -->
       <% include ./partials/navbar.ejs %>
+      
       <!-- Page Content -->
       <main class="container">
-      <% include ../static/partials/messages.ejs %>
+        <% include ../static/partials/messages.ejs %>
 
 
         <!-- Page Features -->
-      <div class="jumbotron">
+        <div class="jumbotron">
+
+        <% if(currentUser) { %>
+        <!-- User Signed In -->
+          <h4>Shopping List</h4>
+       <% } else { %>
+       <!-- Not Signed In -->
+       <% }%>
 
       </div> <!-- /.jumbotron -->
-      </main>
-      <!-- /.container -->
+    </main>
+    <!-- /.container -->
 
-       <% include ./partials/baseScripts.ejs %>
-    </body>
+     <% include ./partials/baseScripts.ejs %>
+  </body>
 </html>
