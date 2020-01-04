@@ -9,7 +9,7 @@
     "operatorsAliases": false
   },
   "test": {
-    "username": "root",
+    "username": "sandratourjman",
     "password": null,
     "database": "grabngo-test",
     "host": "127.0.0.1",
