@@ -9,21 +9,45 @@
       <% include ./partials/navbar.ejs %>
       
       <!-- Page Content -->
-      <main class="container">
+      <main class="container mainJumbo">
         <% include ../static/partials/messages.ejs %>
 
-
         <!-- Page Features -->
-        <div class="jumbotron">
 
-        <% if(currentUser) { %>
-        <!-- User Signed In -->
-          <h4>Shopping List</h4>
-       <% } else { %>
-       <!-- Not Signed In -->
-       <% }%>
+         <!-- If user redirects to main page and signed in, provide a way to go to lists -->
+         <% if(currentUser) { %>
+         <div class="container mainJumbo" style="text-align:center">
+          <h4>Hey there! Why don't we go back to your lists?</h4>
+          <br>
+          <a href="/lists" class="btn btn-success">Go to My Lists</a>
+         </div>
+            
+         <% } else { %>
+          <div class="inbox">
+            <div class="item">
+              <input type="checkbox">
+              <p><b>This is Grab n Go</b></p>
+            </div>
+            <div class="item">
+              <input type="checkbox">
+              <p>Simple. Easy-to-use.</p>
+            </div>
+            <div class="item">
+              <input type="checkbox">
+              <p>One checklist to sync with family.</p>
+            </div>
+            <div class="item">
+              <input type="checkbox">
+              <p>Never forget your items again.</p>
+            </div>
+            <div class="item">
+              <input type="checkbox">
+              <p>Sign up today.</p>
+            </div>
+          </div>
+         <% } %>
 
-      </div> <!-- /.jumbotron -->
+
     </main>
     <!-- /.container -->
 

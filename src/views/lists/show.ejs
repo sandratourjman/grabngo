@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <% include ../static/partials/head.ejs %>
+  </head>
+  <body class="main-page">
+  
+      <!-- Navigation -->
+      <% include ../static/partials/navbar.ejs %>
+      
+      <!-- Page Content -->
+      <main class="container">
+
+      <div class="row"></div>
+       <div class="row justify-content-md-center" style="padding-bottom:10px">
+         <div class="col-md-11">
+           <a href="/lists" class="btn btn-light btn-sm">Back to Lists</a>
+           <% if(currentUser) { %>
+             <button type="button" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#editListModal">Edit List</button>
+
+              <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteListModal">Delete List</button>
+
+            <!-- <form style="display:initial" action="/lists/<%= list.id %>/destroy" method="post">
+              <a href="/lists/<%= list.id %>/items/new" class="btn btn-primary btn-sm">New Item</a>
+            </form> -->
+
+          <% }%>
+         </div>
+       </div>
+
+      <div class="row justify-content-md-center">
+        <div class="col-md-11">
+          <h4><%= list.title %></h4>
+          <small class="uppercase">Category: <%- list.category %></small>
+        </div>
+
+        <!-- Edit List Modal Window -->
+          <div class="modal fade" id="editListModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Edit List</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form method="POST" action="/lists/<%= list.id %>/update">
+                    <div class="form-group">
+                      <label for="list-title" class="col-form-label">Title:</label>
+                      <input value="<%= list.title %>" type="text" name="title" class="form-control" id="list-title" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="list-category" class="col-form-label">Category:</label>
+                      <input value="<%= list.category %>" type="text" name="category" class="form-control" id="list-category" required>
+                    </div>
+
+                    <div class="modal-footer">
+                      <a href="/" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</a>
+                      <button type="submit" class="btn btn-primary">Save Updates</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End of Edit List Modal Window -->
+
+        <!-- Delete List Modal Window -->
+          <div class="modal fade" id="deleteListModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Delete List</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+
+                <div class="modal-body">
+                  <form method="POST" action="/lists/<%= list.id %>/destroy">
+                   Are you sure you want to delete the following list: <strong><em><%= list.title %></em></strong>
+                   <br><br>
+
+                    <div class="modal-footer">
+                      <a href="/" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</a>
+                      <button type="submit" class="btn btn-danger">Delete List</button>
+                    </div>
+                  </form>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <!-- End of Delete List Modal Window -->
+
+
+
+
+      </div>
+        
+      </main>
+
+
+       <% include ../static/partials/baseScripts.ejs %>
+    </body>
+</html>
