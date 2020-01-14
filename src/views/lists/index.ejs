@@ -18,17 +18,20 @@
             <h4 class="lists-title">Shopping List</h4>
                 <hr>
             <div class="row justify-content-center add-list-hover">
+
               <button type="button" class="btn btn-sq-lg btn-secondary add-list" data-toggle="modal" data-target="#listModal">
                 <i class="fa fa-plus fa-5x"></i><br/>Add list
               </button>
 
+              <div>
               <% lists.forEach((list) => {  %>
-               <a role="button" class="btn btn-sq-lg btn-secondary add-list" href="/lists/<%= list.id %>">
+               <a class="btn btn-sq-lg btn-secondary add-list" href="/lists/<%= list.id %>">
                 <div class="bigLetter"><%= (list.title).charAt(0).toUpperCase(); %></div>
                 <div class="smallTitle"><%= list.title %></div>
-              </button>
+              </a>
               
               <% }) %>
+            </div>
 
               <!-- New List Modal Window -->
               <div class="modal fade" id="listModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -61,8 +64,6 @@
                 </div>
               </div>
               <!-- End of Modal Window -->
-
-
 
             </div> <!-- End of row  -->
           </div>

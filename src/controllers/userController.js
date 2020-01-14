@@ -1,4 +1,6 @@
 const userQueries = require("../db/queries.users.js");
+const listQueries = require("../db/queries.lists.js");
+const itemQueries = require("../db/queries.items.js");
 const passport = require("passport");
 
 module.exports = {
@@ -19,7 +21,7 @@ module.exports = {
      } else {
        passport.authenticate("local")(req, res, () => {
          req.flash("notice", `You've successfully signed up. Welcome ${req.user.email}!`);
-         res.redirect("/");
+         res.redirect("/lists");
        })
      }
     });
@@ -36,7 +38,7 @@ module.exports = {
        res.redirect("/users/sign_in");
      } else {
        req.flash("notice", `Welcome back, ${req.user.email}!`);
-       res.redirect("/");
+       res.redirect("/lists");
      }
    })
   },
