@@ -27,7 +27,7 @@
           <% }%>
          </div>
        </div>
-
+       <hr width="50%">
       <div class="row justify-content-md-center">
 
         <div class="inbox">
@@ -40,12 +40,13 @@
             <div class="item">
               <form action="/lists/<%= list.id %>/items/create" method="post">
                 <div class="input-group">
-                  <input type="text" class="form-control" name="title" placeholder="Enter item..">
+                  <input type="text" class="form-contro input-large" name="title" placeholder="Enter item..">
                   <span class="input-group-btn">
                     <button class="btn btn-sq-sm btn-success add-item" type="submit">Add Item</button>
                   </span>
                 </div>
               </form>
+
               
             </div>
 

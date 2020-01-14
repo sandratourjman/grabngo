@@ -8,7 +8,7 @@ module.exports = {
 				res.redirect(500, "static/index");
 			} else {
                 items = result['items'];
-				res.render(`items/index`, {items});
+				res.render(`lists/${item.listId}/index`, {items});
 			}
 		})
 	},
@@ -17,7 +17,6 @@ module.exports = {
 	    let newItem = {
 	        title: req.body.title,
             purchased: req.body.purchased,
-	        userId: req.user.id,
             listId: req.params.listId
 	    };
 	    itemQueries.addItem(newItem, (err, item) => {
@@ -36,7 +35,7 @@ module.exports = {
             if(err || item == null){
                 res.redirect(404, '/');
             } else {
-                res.render(`items/show`, {item,list});
+                res.render(`lists/${item.listId}/index`, {item,list});
             }
         });
     },

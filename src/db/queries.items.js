@@ -34,6 +34,7 @@ module.exports = {
 		return Item.create(newItem)
 		.then((item) => {
 			callback(null, item)
+			console.log(item);
 		})
 		.catch((err) => {
 			callback(err);
