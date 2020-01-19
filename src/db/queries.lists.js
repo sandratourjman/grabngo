@@ -22,12 +22,11 @@ module.exports = {
 				callback(400);
 			} else {
 				result['list'] = list;
-				// Item.scope({method: ['itemsFor', id]}).findAll()
-				// .then(items => {
-				// 	result['items'] = items;
-				// 	callback(null, result)
-				// })
-				callback(null, result);
+				Item.scope({method: ['itemsFor', id]}).findAll()
+				.then(items => {
+					result['items'] = items;
+					callback(null, result)
+				})
 			}
 		})
 		.catch((err) => {

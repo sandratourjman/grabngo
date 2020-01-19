@@ -74,6 +74,11 @@ body {
   margin-top: -15px;
 }
 
+#add-item-btn {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
 
 /* -------------------checkbox for notepad----------------------*/
 
@@ -111,7 +116,7 @@ input[type="checkbox"] {
 }
 
 input[type="text"] {
-  margin:10px;
+  margin:5px;
 }
 
 .add-item {

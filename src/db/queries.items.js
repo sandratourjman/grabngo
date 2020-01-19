@@ -33,8 +33,7 @@ module.exports = {
 	addItem(newItem, callback) {
 		return Item.create(newItem)
 		.then((item) => {
-			callback(null, item)
-			console.log(item);
+			callback(null, item);
 		})
 		.catch((err) => {
 			callback(err);
@@ -64,6 +63,7 @@ module.exports = {
 			item.update(updatedItem, {
 				fields: Object.keys(updatedItem)
 			})
+
 			.then(() => {
 				callback(null, item);
 			})
