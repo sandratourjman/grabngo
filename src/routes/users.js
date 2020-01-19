@@ -14,9 +14,5 @@ router.post("/users/sign_in", passport.authenticate('local', {
     }),userController.signIn);
 router.get("/users/sign_out", userController.signOut);
 
-// router.get("/users/:id", userController.show);
-// router.get("/users/:id/upgrade", userController.upgradeForm);
-// router.post("/users/:id/upgrade", userController.upgrade);
-// router.post("/users/:id/downgrade", userController.downgrade);
 
 module.exports = router;

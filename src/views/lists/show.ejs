@@ -16,14 +16,8 @@
          <div class="col-md-11">
            <a href="/lists" class="btn btn-light btn-sm">Back to Lists</a>
            <% if(currentUser) { %>
-             <button type="button" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#editListModal">Edit List</button>
-
-              <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteListModal">Delete List</button>
-
-            <!-- <form style="display:initial" action="/lists/<%= list.id %>/destroy" method="post">
-              <a href="/lists/<%= list.id %>/items/new" class="btn btn-primary btn-sm">New Item</a>
-            </form> -->
-
+            <button type="button" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#editListModal">Edit List</button>
+            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteListModal">Delete List</button>
           <% }%>
          </div>
        </div>
@@ -32,39 +26,77 @@
 
         <div class="inbox">
             <div class="item">
-              <!-- <input type="checkbox" disabled> -->
               <p style="text-align: center"><b><%= list.title %></b><br>
               <small class="uppercase smaller">Category: <%- list.category %></small></p>
-              
             </div>
-            <div class="item">
-              <form action="/lists/<%= list.id %>/items/create" method="post">
-                <div class="input-group">
-                  <input type="text" class="form-contro input-large" name="title" placeholder="Enter item..">
-                  <span class="input-group-btn">
-                    <button class="btn btn-sq-sm btn-success add-item" type="submit">Add Item</button>
-                  </span>
-                </div>
+        <div> <!-- End of Inbox -->
+
+        <div class="container">
+          <form action="/lists/<%= list.id %>/items/create" method="post">
+            <div class="d-table-cell w-100">
+                <input class="form-control" name="title" autocomplete="off" placeholder="Enter item..">
+            </div>
+             <div class="d-table-cell align-middle">
+                <button id="add-item-btn" class="btn btn-primary" type="submit" value="Add Item">Add Item</button>
+            </div>
+          </form>
+        </div>
+        <hr style="margin-bottom: 0px">
+        </div>
+
+        <% if(items != "") { %>
+          <% items.forEach((item) => {  %>
+            <%= console.log(item.title +' ' + item.purchased);  %>
+            <% let checked = item.purchased === true ? "checked='true'" : ""  %>
+
+          <div class="item" id="edit-item-<%= item.id %>" data-edit="<%= item.id %>" style="display: flex;">
+            <form id="form-item-<%= item.id %>" action="/lists/<%= list.id %>/items/<%= item.id %>/update" method="post">
+            <% if(!item.purchased) { %>
+              <input name="purchased" type="checkbox" id="inputcheck-item-<%= item.id %>" onclick="checkFunc(<%= item.id %>)" <%= checked %>>
+            <% } else { %>
+              <input name="purchased" type="checkbox" id="inputcheck-item-<%= item.id %>" onclick="checkFunc(<%= item.id %>)" <%= checked %>>
+            <% } %>
+            </form>
+            <% if(!item.purchased) { %>
+              <p class="form-check-label itemTitle"><%= item.title %></p>
+            <% } else { %>
+              <p id= "p-<%= item.id %>" class="form-check-label itemTitle" style="background:#F9F9F9;text-decoration: line-through;"><%= item.title %></p>
+            <% } %>
+
+            <!-- Edit/Delete Items Buttons-->
+            <div style="margin:15px;">
+                <button class="btn btn-sq-sm btn-warning btn-edit" type="button" onclick="editTitle(<%= item.id %>)">
+                  <i class="far fa-edit fa-1x"></i>
+                </button>
+
+                <form action="/lists/<%= list.id %>/items/<%= item.id %>/destroy" method="post" style="display: inline;">
+                    <button class="btn btn-sq-sm btn-danger btn-delete" type="submit">
+                        <i class="fas fa-trash fa-1x"></i>
+                    </button>
+                </form>
+             </div> <!-- End of Edit/Delete Items Buttons -->
+          </div> <!-- End of Item row -->
+
+          <!-- Editable Item Title -->
+          <div class="item" id="show-item-<%= item.id %>" data-save="<%= item.id %>" style="display: none;">
+            <form action="/lists/<%= list.id %>/items/<%= item.id %>/update" method="post" style="display: inline;">
+              <input disabled type="checkbox" id="inputcheck-item-<%= item.id %>" name="purchased" value="<%= item.purchased %>" <%= checked %>>
+              <input type="text" name="title"  value="<%= item.title %>">
+
+              <div style="margin:15px; display: inline">
+                <button class="btn btn-sq-sm btn-success btn-save" type="submit" onclick="editTitle(<%= item.id %>)">
+                    <i class="far fa-save fa-1x"></i>
+                   </button>
               </form>
 
-              
-            </div>
-
-            <div class="item">
-              <input type="checkbox"  value="">
-              <p class="form-check-label">Default checkbox</p>
-              <div style="margin:15px;">
-              <button class="btn btn-sq-sm btn-warning btn-edit" type="button">
-               <i class="far fa-edit fa-1x"></i>
-              </button>
-              <button class="btn btn-sq-sm btn-danger btn-delete" type="button">
-                  <i class="fas fa-trash fa-1x"></i>
-              </button>
-            </div>
-            </div>
-
-
-          </div>
+            <button class="btn btn-sq-sm btn-danger btn-delete" type="button" onclick="editTitle(<%= item.id %>)">
+              <i class="fas fa-window-close fa-1x"></i>
+            </button>
+          </div> <!-- Editable Item Title -->
+         </div> <!-- End of each item -->
+            <% }) %>
+          <% } %>
+        </div> <!-- End of inbox div -->
 
         <!-- Edit List Modal Window -->
           <div class="modal fade" id="editListModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -126,9 +158,50 @@
           </div>
           <!-- End of Delete List Modal Window -->
 
-      </div>
+      </div> <!--End of Row -->
         
       </main>
        <% include ../static/partials/baseScripts.ejs %>
+      <script src="/socket.io/socket.io.js"></script>
+      <script>
+        var socket = io.connect();
+        socket.on('item_changed', function(msg){
+              document.location.reload();
+        });
+      </script>
+
+       <script>
+          function editTitle(itemID) {
+            var editId = document.getElementById("edit-item-"+itemID).dataset.edit;
+            var showId = document.getElementById("show-item-"+itemID).dataset.save;
+
+            var edit = document.querySelectorAll('[data-edit="'+editId+'"]');
+            var show = document.querySelectorAll('[data-save="'+showId+'"]');
+
+            var editStyle = edit[0].style.display;
+            var showStyle = show[0].style.display;
+
+            editStyle = editStyle == "flex" ? edit[0].style.display = "none" : edit[0].style.display ="flex";
+            showStyle = showStyle == "none" ? show[0].style.display= "flex" : show[0].style.display ="none";
+          }
+
+          function checkFunc(itemID) {
+            $( "#inputcheck-item-" + itemID).change(function() {
+              if ($(this).is(':checked')) {
+                $(this).val('true');
+                $("#p-"+ itemID).attr('style', 'background:#F9F9F9;text-decoration: line-through;');
+                console.log(document.getElementById("inputcheck-item-" + itemID));
+                $("#form-item-" + itemID).submit();
+              } else {
+                $(this).val('false');
+                 $(this).removeAttr('checked');
+                 $("#p-"+ itemID).attr('style', 'background:#FFF;text-decoration: none');
+                 console.log(document.getElementById("inputcheck-item-" + itemID));
+                 $("#form-item-" + itemID).submit();
+              }
+            });
+          }
+
+      </script>
     </body>
 </html>

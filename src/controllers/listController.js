@@ -1,4 +1,5 @@
 const listQueries = require("../db/queries.lists.js");
+const itemQueries = require("../db/queries.items.js");
 
 module.exports = {
 	index(req, res, next){
@@ -30,11 +31,11 @@ module.exports = {
     show(req, res, next){
         listQueries.getList(req.params.id, (err, result) => {
             list = result['list'];
-            // items = result['items'];
+            items = result['items'];
             if(err || list == null){
                 res.redirect(404, '/');
             } else {
-                res.render('lists/show', {list});
+                res.render('lists/show', {list, items});
             }
         });
     },
