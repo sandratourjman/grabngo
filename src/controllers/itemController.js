@@ -43,7 +43,7 @@ module.exports = {
         });
     },
     destroy(req, res, next){
-        itemQueries.deleteItem(req.params.id, (err, deletedRecordsCount) => {
+        itemQueries.deleteItem(req.params.id, (err, item) => {
             if(err){
                 res.redirect(500, `/lists/${item.listId}`);
             } else {
@@ -54,35 +54,13 @@ module.exports = {
     },
 
     update(req, res, next){
-console.log("item controller here line 57");
-console.log(req);
         itemQueries.updateItem(req.params.id, req.body, (err, item) => {
-                    if(err || item == null){
-                        res.redirect(401, `/lists/${item.listId}`);
-                    } else {
-                        socket.emit('item_changed');
-                        res.redirect(`/lists/${item.listId}`);
-                    }
-                });
-        // itemQueries.getItem(req.params.id, (err, result) => {
-        //     item = result['item'];
-        //     list = result['list'];
-
-        //     if(err || item == null){
-        //         res.redirect(404, "/");
-        //     } else {
-        //         console.log("sandra sandra sandra");
-        //         console.log(req.params.id);
-        //         console.log(req.body);
-        //         itemQueries.updateItem(req.params.id, req.body, (err, item) => {
-        //             if(err || item == null){
-        //                 res.redirect(401, `/lists/${item.listId}`);
-        //             } else {
-        //                 socket.emit('item_changed');
-        //                 res.redirect(`/lists/${item.listId}`);
-        //             }
-        //         });
-        //     }
-        // });
+            if(err || item == null){
+                res.redirect(401, `/lists/${item.listId}`);
+            } else {
+                socket.emit('item_changed');
+                res.redirect(`/lists/${item.listId}`);
+            }
+        });
     }
 }

@@ -45,8 +45,8 @@ module.exports = {
 		return Item.destroy({
 			where: {id}
 		})
-		.then((deletedRecordsCount) => {
-			callback(null, deletedRecordsCount)
+		.then((item) => {
+			callback(null, item)
 		})
 		.catch((err) => {
 			callback(err);
