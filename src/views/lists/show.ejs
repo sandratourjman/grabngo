@@ -46,22 +46,23 @@
 
         <% if(items != "") { %>
           <% items.forEach((item) => {  %>
-            <%= console.log(item.title +' ' + item.purchased);  %>
             <% let checked = item.purchased === true ? "checked='true'" : ""  %>
-
           <div class="item" id="edit-item-<%= item.id %>" data-edit="<%= item.id %>" style="display: flex;">
             <form id="form-item-<%= item.id %>" action="/lists/<%= list.id %>/items/<%= item.id %>/update" method="post">
-            <% if(!item.purchased) { %>
-              <input name="purchased" type="checkbox" id="inputcheck-item-<%= item.id %>" onclick="checkFunc(<%= item.id %>)" <%= checked %>>
-            <% } else { %>
-              <input name="purchased" type="checkbox" id="inputcheck-item-<%= item.id %>" onclick="checkFunc(<%= item.id %>)" <%= checked %>>
-            <% } %>
-            </form>
-            <% if(!item.purchased) { %>
-              <p class="form-check-label itemTitle"><%= item.title %></p>
-            <% } else { %>
-              <p id= "p-<%= item.id %>" class="form-check-label itemTitle" style="background:#F9F9F9;text-decoration: line-through;"><%= item.title %></p>
-            <% } %>
+              <% if(!item.purchased) { %>
+                  <input type="text" name="purchased" value="true" style="display: none;">
+                  <input type="checkbox" id="inputcheck-item-<%= item.id %>" onclick="checkFunc(<%= item.id %>)" <%= checked %>>
+
+              <% } else if (item.purchased == true) { %>
+                  <input type="text" name="purchased" value="false" style="display: none;">
+                  <input type="checkbox" id="inputcheck-item-<%= item.id %>" onclick="checkFunc(<%= item.id %>)" <%= checked %>>
+              <% } %>
+              </form>
+              <% if(!item.purchased) { %>
+                <p class="form-check-label itemTitle"><%= item.title %></p>
+              <% } else { %>
+                <p id= "p-<%= item.id %>" class="form-check-label itemTitle" style="background:#F9F9F9;text-decoration: line-through;"><%= item.title %></p>
+              <% } %>
 
             <!-- Edit/Delete Items Buttons-->
             <div style="margin:15px;">
@@ -188,15 +189,11 @@
           function checkFunc(itemID) {
             $( "#inputcheck-item-" + itemID).change(function() {
               if ($(this).is(':checked')) {
-                $(this).val('true');
                 $("#p-"+ itemID).attr('style', 'background:#F9F9F9;text-decoration: line-through;');
-                console.log(document.getElementById("inputcheck-item-" + itemID));
                 $("#form-item-" + itemID).submit();
               } else {
-                $(this).val('false');
                  $(this).removeAttr('checked');
                  $("#p-"+ itemID).attr('style', 'background:#FFF;text-decoration: none');
-                 console.log(document.getElementById("inputcheck-item-" + itemID));
                  $("#form-item-" + itemID).submit();
               }
             });
